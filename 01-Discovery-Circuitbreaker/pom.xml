@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.agoncal.sample.quarkus</groupId>
+    <artifactId>discovery-circuitbreaker</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
+    <name>01-00 - Parent of Discover and Circuit Breaker</name>
+
+    <parent>
+        <groupId>org.agoncal.sample.quarkus</groupId>
+        <artifactId>parent</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <modules>
+        <module>book-api</module>
+        <module>number-api</module>
+    </modules>
+</project>

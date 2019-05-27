@@ -19,22 +19,18 @@ package org.agoncal.sample.quarkus.number.rest;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Response;
-
-import static javax.ws.rs.core.Response.Status.OK;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.startsWith;
 
 @QuarkusTest
 public class NumberResourceTest {
 
-    private WebTarget webTarget;
-
     @Test
-    public void generateBookNumber() throws Exception {
-        final Response response = webTarget.path("book").request().get();
-        assertEquals(OK.getStatusCode(), response.getStatus());
-        assertTrue(response.readEntity(String.class).startsWith("BK-"));
+    public void testHelloEndpoint() {
+        given()
+            .when().get("/api/numbers/book")
+            .then()
+            .statusCode(200)
+            .body(startsWith("BK-"));
     }
 }

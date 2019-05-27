@@ -26,7 +26,7 @@ import static org.hamcrest.CoreMatchers.startsWith;
 public class NumberResourceTest {
 
     @Test
-    public void testHelloEndpoint() {
+    public void shouldGenerateBookNumber() {
         given()
             .when().get("/api/numbers/book")
             .then()

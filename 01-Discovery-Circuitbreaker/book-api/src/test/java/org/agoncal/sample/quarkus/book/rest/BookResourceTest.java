@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
+import static io.restassured.RestAssured.given;
 import static javax.ws.rs.client.Entity.entity;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON_TYPE;
 import static javax.ws.rs.core.Response.Status.CREATED;
@@ -44,10 +45,11 @@ public class BookResourceTest {
     }
 
     @Test
-    public void findAll() throws Exception {
-        final Response response = webTarget.request().get();
-
-        assertEquals(OK.getStatusCode(), response.getStatus());
+    public void shouldFindAll() {
+        given()
+            .when().get("/api/books")
+            .then()
+            .statusCode(200);
     }
 
     @Test

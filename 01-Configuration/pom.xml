@@ -7,7 +7,7 @@
     <groupId>org.agoncal.sample.quarkus</groupId>
     <artifactId>configuration</artifactId>
     <version>1.0</version>
-    <name>01-01 - Configuration</name>
+    <name>01 :: Configuration</name>
 
     <parent>
         <groupId>org.agoncal.sample.quarkus</groupId>

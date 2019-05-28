@@ -8,11 +8,11 @@
   <artifactId>parent</artifactId>
   <version>1.0</version>
   <packaging>pom</packaging>
-  <name>00 - Parent of Quarkus Samples</name>
+  <name>00 :: Quarkus Samples</name>
 
   <modules>
     <module>01-Configuration</module>
-    <module>01-Discovery-Circuitbreaker</module>
+    <module>02-Discovery-Circuitbreaker</module>
   </modules>
 
   <properties>

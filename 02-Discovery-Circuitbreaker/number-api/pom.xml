@@ -5,9 +5,9 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.agoncal.sample.quarkus.discovery-circuitbreaker</groupId>
-    <artifactId>book-api</artifactId>
+    <artifactId>number-api</artifactId>
     <version>1.0</version>
-    <name>01-01 - Book API</name>
+    <name>02 :: Discover and Circuit Breaker :: Number API</name>
 
     <parent>
         <groupId>org.agoncal.sample.quarkus</groupId>
@@ -16,24 +16,10 @@
     </parent>
 
     <dependencies>
-        <!-- Quarkus -->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-resteasy</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-resteasy-jsonb</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-hibernate-orm</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-jdbc-h2</artifactId>
-        </dependency>
-        <!-- Test -->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-junit5</artifactId>

@@ -1,0 +1,9 @@
+version: '2'
+services:
+  cdbookstore-postgresql:
+    image: postgres:11.3
+    environment:
+      - POSTGRES_USER=cdbookstoreDB
+      - POSTGRES_PASSWORD=h2g2
+    ports:
+      - 5432:5432

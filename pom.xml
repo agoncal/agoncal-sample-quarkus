@@ -11,6 +11,7 @@
   <name>00 - Parent of Quarkus Samples</name>
 
   <modules>
+    <module>01-Configuration</module>
     <module>01-Discovery-Circuitbreaker</module>
   </modules>
 

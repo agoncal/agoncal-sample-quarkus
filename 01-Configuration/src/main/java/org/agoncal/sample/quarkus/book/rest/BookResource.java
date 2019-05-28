@@ -78,7 +78,7 @@ public class BookResource {
     public Response create(Book book, @Context UriInfo uriInfo) {
         log.info("Creating the book " + book);
 
-        String isbn = isbnPrefix + "-" + (int) Math.random() * 1000 + "-" + (int) Math.random() * 1000;
+        String isbn = isbnPrefix + "-" + (int) (Math.random() * 1000) + "-" + (int) (Math.random() * 1000);
         book.setIsbn(isbn);
 
         final Book created = bookRepository.create(book);

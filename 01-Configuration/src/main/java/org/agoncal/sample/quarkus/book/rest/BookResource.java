@@ -45,8 +45,6 @@ import static javax.ws.rs.core.Response.ok;
 import static javax.ws.rs.core.Response.status;
 
 @ApplicationScoped
-@Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
 @Path("books")
 public class BookResource {
 
@@ -60,8 +58,9 @@ public class BookResource {
 
     @GET
     @Path("/{id : \\d+}")
+    @Produces(MediaType.APPLICATION_JSON)
     public Response findById(@PathParam("id") final Long id) {
-        log.info("Getting the book " + id);
+        log.debug("Getting the book " + id);
         return ofNullable(bookRepository.findById(id))
             .map(Response::ok)
             .orElse(status(NOT_FOUND))
@@ -69,12 +68,14 @@ public class BookResource {
     }
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
     public Response findAll() {
         log.info("Getting all the books");
         return ok(bookRepository.findAll()).build();
     }
 
     @POST
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response create(Book book, @Context UriInfo uriInfo) {
         log.info("Creating the book " + book);
 
@@ -83,19 +84,21 @@ public class BookResource {
 
         final Book created = bookRepository.create(book);
         URI createdURI = uriInfo.getBaseUriBuilder().path(String.valueOf(created.getId())).build();
+        log.info("Created book URI " + createdURI);
         return Response.created(createdURI).build();
     }
 
     @PUT
+    @Produces(MediaType.APPLICATION_JSON)
     public Response update(Book book) {
-        log.info("Updating the book " + book);
+        log.debug("Updating the book " + book);
         return ok(bookRepository.update(book)).build();
     }
 
     @DELETE
     @Path("/{id : \\d+}")
     public Response delete(@PathParam("id") final Long id) {
-        log.info("Deleting the book " + id);
+        log.debug("Deleting the book " + id);
         bookRepository.deleteById(id);
         return noContent().build();
     }

@@ -21,6 +21,7 @@ import io.quarkus.test.junit.QuarkusTest;
 import org.agoncal.sample.quarkus.book.domain.Book;
 import org.junit.jupiter.api.Test;
 
+import javax.json.bind.JsonbBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -28,6 +29,7 @@ import javax.ws.rs.core.Response;
 import static io.restassured.RestAssured.given;
 import static javax.ws.rs.client.Entity.entity;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON_TYPE;
+import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import static javax.ws.rs.core.Response.Status.NO_CONTENT;
 import static javax.ws.rs.core.Response.Status.OK;
 import static org.hamcrest.Matchers.contains;
@@ -39,10 +41,11 @@ public class BookResourceTest {
     private WebTarget webTarget;
 
     @Test
-    public void findById() throws Exception {
-        final Response response = webTarget.path("{id}").resolveTemplate("id", 0).request().get();
-
-        assertEquals(OK.getStatusCode(), response.getStatus());
+    public void shouldNotFindAnythingById() throws Exception {
+        given()
+            .when().get("/api/books/9999999")
+            .then()
+            .statusCode(NOT_FOUND.getStatusCode());
     }
 
     @Test
@@ -50,15 +53,16 @@ public class BookResourceTest {
         given()
             .when().get("/api/books")
             .then()
-            .statusCode(200);
+            .statusCode(OK.getStatusCode());
     }
 
     @Test
     public void shouldCreate() throws Exception {
         final Book book = new Book("Joshua Bloch", "Effective Java (2nd Edition)", 2001, "Tech", " 978-0-3213-5668-0");
+        String bookJson = JsonbBuilder.create().toJson(book);
 
         given()
-            .body(book)
+            .body(bookJson)
             .header("Content-Type", MediaType.APPLICATION_JSON)
             .when()
             .post("/api/books")
@@ -87,5 +91,13 @@ public class BookResourceTest {
             .delete();
 
         assertEquals(NO_CONTENT.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void shouldNotDeleteAnythingById() throws Exception {
+        given()
+            .when().get("/api/books/9999999")
+            .then()
+            .statusCode(NOT_FOUND.getStatusCode());
     }
 }

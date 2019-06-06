@@ -19,51 +19,51 @@ package org.agoncal.sample.quarkus.book.repository;
 import org.agoncal.sample.quarkus.book.domain.Book;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-import static javax.transaction.Transactional.TxType.REQUIRED;
 import static javax.transaction.Transactional.TxType.SUPPORTS;
 
 @ApplicationScoped
-@Transactional(SUPPORTS)
 public class BookRepository {
 
     // ======================================
     // =             Injection              =
     // ======================================
 
-    @PersistenceContext
+    @Inject
     EntityManager entityManager;
 
     // ======================================
     // =              Methods               =
     // ======================================
 
+    @Transactional(SUPPORTS)
     public Book findById(final Long id) {
         return entityManager.find(Book.class, id);
     }
 
+    @Transactional(SUPPORTS)
     public List<Book> findAll() {
         return entityManager.createQuery("SELECT m FROM Book m", Book.class).getResultList();
     }
 
-    @Transactional(REQUIRED)
+    @Transactional
     public Book create(final Book book) {
         entityManager.persist(book);
         return book;
     }
 
-    @Transactional(REQUIRED)
+    @Transactional
     public Book update(final Book book) {
         return entityManager.merge(book);
     }
 
-    @Transactional(REQUIRED)
+    @Transactional
     public void deleteById(final Long id) {
-        Optional.ofNullable(findById(id)).ifPresent(entityManager::remove);
+        Optional.ofNullable(entityManager.getReference(Book.class, id)).ifPresent(entityManager::remove);
     }
 }

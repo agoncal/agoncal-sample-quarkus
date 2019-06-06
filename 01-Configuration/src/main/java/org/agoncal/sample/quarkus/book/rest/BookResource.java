@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -32,6 +33,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -39,6 +41,7 @@ import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 
 import static java.util.Optional.ofNullable;
+import static javax.transaction.Transactional.TxType.REQUIRED;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import static javax.ws.rs.core.Response.noContent;
 import static javax.ws.rs.core.Response.ok;
@@ -56,6 +59,9 @@ public class BookResource {
     @Inject
     BookRepository bookRepository;
 
+    /**
+     * curl -X GET http://localhost:8080/api/books/1234 -v
+     */
     @GET
     @Path("/{id : \\d+}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -67,6 +73,9 @@ public class BookResource {
             .build();
     }
 
+    /**
+     * curl -X GET http://localhost:8080/api/books -v
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAll() {
@@ -74,15 +83,23 @@ public class BookResource {
         return ok(bookRepository.findAll()).build();
     }
 
+    /**
+     * curl -X POST http://localhost:8080/api/books  -H "Content-Type: application/json" -d '{"author":"Douglas Adams", "title":"H2G2", "year":"1979", "genre":"sci-fi"}' -v
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @Transactional(REQUIRED)
     public Response create(Book book, @Context UriInfo uriInfo) {
         log.debug("Creating the book " + book);
+        if (book.getId() != null) {
+            throw new WebApplicationException("Id was invalidly set on request.", 422);
+        }
 
-        String isbn = isbnPrefix + "-" + (int) (Math.random() * 1000) + "-" + (int) (Math.random() * 1000);
+        String isbn = isbnPrefix + "-" + (int) (Math.random() * 1000) + "-" + (int) (Math.random() * 1000) + "-" + (int) (Math.random() * 1000);
         book.setIsbn(isbn);
 
         final Book created = bookRepository.create(book);
+
         URI createdURI = uriInfo.getAbsolutePathBuilder().path(String.valueOf(created.getId())).build();
         log.info("Created book URI " + createdURI);
         return Response.created(createdURI).build();

@@ -70,20 +70,20 @@ public class BookResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAll() {
-        log.info("Getting all the books");
+        log.debug("Getting all the books");
         return ok(bookRepository.findAll()).build();
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response create(Book book, @Context UriInfo uriInfo) {
-        log.info("Creating the book " + book);
+        log.debug("Creating the book " + book);
 
         String isbn = isbnPrefix + "-" + (int) (Math.random() * 1000) + "-" + (int) (Math.random() * 1000);
         book.setIsbn(isbn);
 
         final Book created = bookRepository.create(book);
-        URI createdURI = uriInfo.getBaseUriBuilder().path(String.valueOf(created.getId())).build();
+        URI createdURI = uriInfo.getAbsolutePathBuilder().path(String.valueOf(created.getId())).build();
         log.info("Created book URI " + createdURI);
         return Response.created(createdURI).build();
     }

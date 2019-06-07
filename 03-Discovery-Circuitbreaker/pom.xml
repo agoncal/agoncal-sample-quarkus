@@ -8,7 +8,7 @@
     <artifactId>discovery-circuitbreaker</artifactId>
     <version>1.0</version>
     <packaging>pom</packaging>
-    <name>02 :: Discover and Circuit Breaker</name>
+    <name>03 :: Discover and Circuit Breaker</name>
 
     <parent>
         <groupId>org.agoncal.sample.quarkus</groupId>

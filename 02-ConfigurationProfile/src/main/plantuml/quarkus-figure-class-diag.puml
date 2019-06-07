@@ -1,0 +1,49 @@
+@startuml
+skinparam dpi 300
+allow_mixing
+
+rectangle Application {
+    class ApplicationConfig <<ApplicationPath>>
+    class Book <<Entity>> {
+      - Long id
+      - String isbn
+      - String author
+      - String title
+      - Integer year
+      - String genre
+    }
+
+    class BookRepository <<Transactional>> {
+      + findById(Long id): Book
+      + findAll(): List<Book>
+      + create(Book book): Book
+      + update(Book book): Book
+      + deleteById(Long id): void
+    }
+
+    class BookResource <<Path>> {
+      - String isbnPrefix <<ConfigProperty>>
+      + findById(Long id): Response
+      + findAll(): Response
+      + create(Book book): Response
+      + update(Book book): Response
+      + delete(Long id): Response
+    }
+
+    database Postgres
+    artifact "application<U+002E>properties" as app
+}
+
+rectangle Test {
+    class BookResourceTest <<QuarkusTest>>
+    database H2
+    artifact "application<U+002E>properties" as app2
+}
+
+BookResource --> BookRepository
+BookRepository ..> Book
+BookResourceTest ..> BookResource
+app -[hidden]-> Postgres
+Postgres -[hidden]-> ApplicationConfig
+
+@enduml

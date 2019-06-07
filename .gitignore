@@ -11,6 +11,8 @@ output
 *.rar
 *.ipr
 *.iws
+*.jpg
+*.png
 rebel.xml
 *DB
 *.dat

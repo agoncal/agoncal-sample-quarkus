@@ -18,10 +18,16 @@ package org.agoncal.sample.quarkus.book.rest;
 
 
 import io.quarkus.test.junit.QuarkusTest;
+import io.restassured.RestAssured;
+import io.restassured.mapper.ObjectMapper;
+import io.restassured.mapper.ObjectMapperDeserializationContext;
+import io.restassured.mapper.ObjectMapperSerializationContext;
 import org.agoncal.sample.quarkus.book.domain.Book;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
@@ -40,6 +46,23 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class BookResourceTest {
 
     private WebTarget webTarget;
+
+    @BeforeAll
+    static void giveMeAMapper() {
+        final Jsonb jsonb = JsonbBuilder.create();
+        ObjectMapper mapper = new ObjectMapper() {
+            @Override
+            public Object deserialize(ObjectMapperDeserializationContext context) {
+                return jsonb.fromJson(context.getDataToDeserialize().asString(), context.getType());
+            }
+
+            @Override
+            public Object serialize(ObjectMapperSerializationContext context) {
+                return jsonb.toJson(context.getObjectToSerialize());
+            }
+        };
+        RestAssured.objectMapper(mapper);
+    }
 
     @Test
     public void shouldNotFindAnythingById() {
@@ -60,10 +83,9 @@ public class BookResourceTest {
     @Test
     public void shouldCreate() {
         final Book book = new Book("Joshua Bloch", "Effective Java (2nd Edition)", 2001, "Tech", " 978-0-3213-5668-0");
-        String bookJson = JsonbBuilder.create().toJson(book);
 
         given()
-            .body(bookJson)
+            .body(book)
             .contentType(MediaType.APPLICATION_JSON)
             .when()
             .post("/api/books")

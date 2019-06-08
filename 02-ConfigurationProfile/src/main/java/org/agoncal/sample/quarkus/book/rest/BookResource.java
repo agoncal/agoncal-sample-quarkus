@@ -55,6 +55,8 @@ public class BookResource {
 
     @ConfigProperty(name = "isbn.prefix")
     String isbnPrefix;
+    @ConfigProperty(name = "isbn.suffix")
+    String isbnSuffix;
 
     @Inject
     BookRepository bookRepository;
@@ -95,7 +97,7 @@ public class BookResource {
             throw new WebApplicationException("Id was invalidly set on request.", 422);
         }
 
-        String isbn = isbnPrefix + "-" + (int) (Math.random() * 1000) + "-" + (int) (Math.random() * 1000) + "-" + (int) (Math.random() * 1000);
+        String isbn = isbnPrefix + "-" + (int) (Math.random() * 1000) + "-" + isbnSuffix;
         book.setIsbn(isbn);
 
         final Book created = bookRepository.create(book);

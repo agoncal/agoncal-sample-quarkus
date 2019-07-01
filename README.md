@@ -1,10 +1,9 @@
-# Samples - JAX-RS
+# Samples - Quarkus
 
-## Purpose of this sample
+## Samples
 
-Several samples about JAX-RS : 
-
-* 01-Testing : Simple integration test
+* [01-Configuration](https://antoniogoncalves.org/2019/06/07/configuring-a-quarkus-application/) : Configures a Quarkus application with properties that are injected or passed by system variable
+* 02-ConfigurationProfile : : Configures a Quarkus application depending on a profile
 
 # Licensing
 

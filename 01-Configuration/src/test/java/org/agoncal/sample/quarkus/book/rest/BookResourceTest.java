@@ -34,6 +34,7 @@ import static javax.ws.rs.core.Response.Status.CREATED;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import static javax.ws.rs.core.Response.Status.NO_CONTENT;
 import static javax.ws.rs.core.Response.Status.OK;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @QuarkusTest
@@ -54,13 +55,16 @@ public class BookResourceTest {
         given()
             .when().get("/api/books")
             .then()
-            .statusCode(OK.getStatusCode());
+            .statusCode(OK.getStatusCode())
+            .body("$", hasSize(1));
     }
 
     @Test
     public void shouldCreate() {
         final Book book = new Book("Joshua Bloch", "Effective Java (2nd Edition)", 2001, "Tech", " 978-0-3213-5668-0");
         String bookJson = JsonbBuilder.create().toJson(book);
+
+        given().when().get("/api/books").then().body("$", hasSize(1));
 
         given()
             .body(bookJson)
@@ -69,6 +73,8 @@ public class BookResourceTest {
             .post("/api/books")
             .then()
             .statusCode(CREATED.getStatusCode());
+
+        given().when().get("/api/books").then().body("$", hasSize(2));
     }
 
     @Test

@@ -1,4 +1,4 @@
-package org.agoncal.fascicle.jpa.integrating.jta;
+package org.agoncal.sample.quarkus.without;
 
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.junit4.WeldInitiator;

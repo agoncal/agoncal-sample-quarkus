@@ -1,4 +1,4 @@
-package org.agoncal.fascicle.jpa.integrating.jta;
+package org.agoncal.sample.quarkus.without;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;

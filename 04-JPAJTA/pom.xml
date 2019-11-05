@@ -11,7 +11,7 @@
     <name>04 :: JPA - JTA</name>
 
     <modules>
-        <module>wit</module>
-        <module>number-api</module>
+        <module>withoutquarkus</module>
+        <module>withquarkus</module>
     </modules>
 </project>

@@ -1,4 +1,4 @@
-package org.agoncal.fascicle.jpa.integrating.jta;
+package org.agoncal.sample.quarkus.without;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

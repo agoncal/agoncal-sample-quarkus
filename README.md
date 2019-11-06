@@ -3,7 +3,9 @@
 ## Samples
 
 * [01-Configuration](https://antoniogoncalves.org/2019/06/07/configuring-a-quarkus-application/) : Configures a Quarkus application with properties that are injected or passed by system variable
-* 02-ConfigurationProfile : : Configures a Quarkus application depending on a profile
+* 02-ConfigurationProfile : Configures a Quarkus application depending on a profile
+* 03-Discovery-Circuitbreaker
+* 04-JPAJTA : An example on how to use a 100% JPA+JTA app with Quarkus
 
 # Licensing
 

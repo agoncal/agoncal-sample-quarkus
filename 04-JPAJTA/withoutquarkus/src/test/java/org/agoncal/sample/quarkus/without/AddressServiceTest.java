@@ -2,13 +2,15 @@ package org.agoncal.sample.quarkus.without;
 
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.junit4.WeldInitiator;
-import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class AddressServiceTest {
 
@@ -28,8 +30,8 @@ public class AddressServiceTest {
     public void shouldCreateAnAddress() {
         Address address = new Address().street1("233 Spring Street").city("New York").zipcode("12345");
         addressService.save(address);
-        Assert.assertNotNull("Id should not be null", address.getId());
+        assertNotNull("Id should not be null", address.getId());
         address = addressService.findById(address.getId());
-        Assert.assertEquals("New York", address.getCity());
+        assertEquals("New York", address.getCity());
     }
 }

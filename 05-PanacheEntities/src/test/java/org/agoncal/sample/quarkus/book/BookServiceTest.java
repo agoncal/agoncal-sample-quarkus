@@ -40,7 +40,21 @@ public class BookServiceTest {
     // end::shouldCreateABook[]
   }
 
-  @Test
+    @Test
+    public void shouldCreateABookWithTagsAndChapters() throws Exception {
+
+        Book book = new Book().title("Java EE 7").price(23.5F).isbn("1-84023-742-4").nbOfPages(354);
+        book.tag("java ee").tag("java").tag("enterprise");
+
+        // Persists the book to the database
+        bookService.createBook(book);
+
+        // Checks the book
+        Book foundBook = bookService.findBook(book.id);
+        assertEquals(3, foundBook.tags.size());
+    }
+
+    @Test
   public void shouldCreateH2G2Book() throws Exception {
 
     // Creates an instance of book

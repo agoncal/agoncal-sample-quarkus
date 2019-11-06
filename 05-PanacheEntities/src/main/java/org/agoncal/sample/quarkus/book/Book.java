@@ -31,6 +31,8 @@ public class Book extends PanacheEntity {
     public Float price;
     public String isbn;
     public Integer nbOfPages;
+    @ElementCollection
+    public List<String> tags = new ArrayList<>();
 
     // ======================================
     // =          Getters & Setters         =
@@ -58,6 +60,11 @@ public class Book extends PanacheEntity {
 
     public Book nbOfPages(Integer nbOfPages) {
         this.nbOfPages = nbOfPages;
+        return this;
+    }
+
+    public Book tag(String tag) {
+        this.tags.add(tag);
         return this;
     }
 }

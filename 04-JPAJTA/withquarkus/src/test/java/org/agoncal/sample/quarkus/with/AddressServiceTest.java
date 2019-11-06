@@ -22,4 +22,9 @@ public class AddressServiceTest {
         address = addressService.findById(address.getId());
         assertEquals("New York", address.getCity());
     }
+
+    @Test
+    public void shoudInjectAddressService() {
+        assertNotNull(addressService);
+    }
 }

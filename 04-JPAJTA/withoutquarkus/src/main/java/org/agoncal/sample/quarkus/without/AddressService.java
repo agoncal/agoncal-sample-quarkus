@@ -5,8 +5,8 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
-import static javax.transaction.Transactional.TxType.MANDATORY;
 import static javax.transaction.Transactional.TxType.REQUIRED;
+import static javax.transaction.Transactional.TxType.SUPPORTS;
 
 /**
  * @author Antonio Goncalves
@@ -14,22 +14,20 @@ import static javax.transaction.Transactional.TxType.REQUIRED;
  * --
  */
 
-// tag::adocSnippet[]
 @ApplicationScoped
 public class AddressService {
 
-  @Inject
-  private EntityManager em;
+    @Inject
+    private EntityManager em;
 
-  @Transactional(REQUIRED)
-  public Address save(Address address) {
-    em.persist(address);
-    return address;
-  }
+    @Transactional(REQUIRED)
+    public Address save(Address address) {
+        em.persist(address);
+        return address;
+    }
 
-  @Transactional(MANDATORY)
-  public String needsATransaction() {
-    return "Success";
-  }
+    @Transactional(SUPPORTS)
+    public Address findById(Long id) {
+        return em.find(Address.class, id);
+    }
 }
-// end::adocSnippet[]

@@ -17,7 +17,7 @@
 
     <properties>
         <!-- Quarkus -->
-        <quarkus.version>0.28.1</quarkus.version>
+        <quarkus.version>1.0.0.CR1</quarkus.version>
         <!-- Maven Plugins -->
         <surefire-plugin.version>2.22.2</surefire-plugin.version>
         <!-- Project -->

@@ -15,11 +15,12 @@
         <module>02-ConfigurationProfile</module>
         <module>03-Discovery-Circuitbreaker</module>
         <module>04-JPAJTA</module>
+        <module>05-PanacheEntities</module>
     </modules>
 
     <properties>
         <!-- Quarkus -->
-        <quarkus.version>0.21.1</quarkus.version>
+        <quarkus.version>0.28.1</quarkus.version>
         <!-- Maven Plugins -->
         <surefire-plugin.version>2.22.2</surefire-plugin.version>
         <!-- Project -->

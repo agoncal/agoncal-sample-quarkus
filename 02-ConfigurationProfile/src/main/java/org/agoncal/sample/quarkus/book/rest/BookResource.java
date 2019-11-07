@@ -79,6 +79,17 @@ public class BookResource {
      * curl -X GET http://localhost:8080/api/books -v
      */
     @GET
+    @Path("/isbn")
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response getIsbn() {
+        log.debug("Getting ISBN");
+        return ok(isbnPrefix + "-" + (int) (Math.random() * 1000) + "-" + isbnSuffix).build();
+    }
+
+    /**
+     * curl -X GET http://localhost:8080/api/books -v
+     */
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAll() {
         log.debug("Getting all the books");

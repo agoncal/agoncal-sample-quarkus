@@ -53,6 +53,13 @@ public class BookResourceTest {
     }
 
     @Test
+    public void shouldNotDeleteAnythingById() {
+        given()
+            .when().get("/api/books/9999999")
+            .then()
+            .statusCode(NOT_FOUND.getStatusCode());
+    }
+    @Test
     @Order(1)
     public void shouldFindAllBeforeCreate() {
         given()

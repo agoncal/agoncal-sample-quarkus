@@ -16,6 +16,7 @@
         <module>03-Discovery-Circuitbreaker</module>
         <module>04-JPAJTA</module>
         <module>05-PanacheEntities</module>
+        <module>06-CDI-Producers</module>
     </modules>
 
     <properties>

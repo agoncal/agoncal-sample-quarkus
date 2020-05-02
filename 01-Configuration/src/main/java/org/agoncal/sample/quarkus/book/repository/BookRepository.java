@@ -25,6 +25,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+import static javax.transaction.Transactional.TxType.REQUIRED;
 import static javax.transaction.Transactional.TxType.SUPPORTS;
 
 @ApplicationScoped
@@ -51,19 +52,19 @@ public class BookRepository {
         return entityManager.createQuery("SELECT m FROM Book m", Book.class).getResultList();
     }
 
-    @Transactional
+    @Transactional(REQUIRED)
     public Book create(final Book book) {
         entityManager.persist(book);
         return book;
     }
 
-    @Transactional
+    @Transactional(REQUIRED)
     public Book update(final Book book) {
         return entityManager.merge(book);
     }
 
-    @Transactional
+    @Transactional(REQUIRED)
     public void deleteById(final Long id) {
-        Optional.ofNullable(entityManager.getReference(Book.class, id)).ifPresent(entityManager::remove);
+        Optional.ofNullable(entityManager.find(Book.class, id)).ifPresent(entityManager::remove);
     }
 }

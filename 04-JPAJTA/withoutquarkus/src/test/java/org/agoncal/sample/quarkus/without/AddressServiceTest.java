@@ -24,7 +24,7 @@ public class AddressServiceTest {
         .build();
 
     @Inject
-    private AddressService addressService;
+    AddressService addressService;
 
     @Test
     public void shouldCreateAnAddress() {

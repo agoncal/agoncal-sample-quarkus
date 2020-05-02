@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class AddressServiceTest {
 
     @Inject
-    private AddressService addressService;
+    AddressService addressService;
 
     @Test
     public void shouldCreateAnAddress() {

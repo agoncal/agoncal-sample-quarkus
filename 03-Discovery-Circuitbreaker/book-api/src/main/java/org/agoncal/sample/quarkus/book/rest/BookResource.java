@@ -31,13 +31,14 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 
 import static java.util.Optional.ofNullable;
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import static javax.ws.rs.core.Response.noContent;
 import static javax.ws.rs.core.Response.ok;
@@ -50,13 +51,16 @@ public class BookResource {
     private final Logger log = LoggerFactory.getLogger(BookResource.class);
 
     @Inject
-    private BookRepository bookRepository;
+    BookRepository bookRepository;
 
+    /**
+     * curl -X GET http://localhost:8080/api/books/1234 -v
+     */
     @GET
     @Path("/{id : \\d+}")
-    @Produces(APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response findById(@PathParam("id") final Long id) {
-        log.info("Getting the book " + id);
+        log.debug("Getting the book " + id);
         return ofNullable(bookRepository.findById(id))
             .map(Response::ok)
             .orElse(status(NOT_FOUND))
@@ -64,16 +68,22 @@ public class BookResource {
     }
 
     @GET
-    @Produces(APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response findAll() {
-        log.info("Getting all the books");
+        log.debug("Getting all the books");
         return ok(bookRepository.findAll()).build();
     }
 
+    /**
+     * curl -X POST http://localhost:8080/api/books  -H "Content-Type: application/json" -d '{"author":"Douglas Adams", "title":"H2G2", "year":"1979", "genre":"sci-fi"}' -v
+     */
     @POST
-    @Consumes(APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response create(Book book, @Context UriInfo uriInfo) {
-        log.info("Creating the book " + book);
+        log.debug("Creating the book " + book);
+        if (book.getId() != null) {
+            throw new WebApplicationException("Id was invalidly set on request.", 422);
+        }
 
         log.info("Invoking the number-api");
 
@@ -83,22 +93,24 @@ public class BookResource {
         book.setIsbn(isbn);
 
         final Book created = bookRepository.create(book);
-        URI createdURI = uriInfo.getBaseUriBuilder().path(String.valueOf(created.getId())).build();
+
+        URI createdURI = uriInfo.getAbsolutePathBuilder().path(String.valueOf(created.getId())).build();
+        log.info("Created book URI " + createdURI);
         return Response.created(createdURI).build();
     }
 
     @PUT
-    @Consumes(APPLICATION_JSON)
-    @Produces(APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response update(Book book) {
-        log.info("Updating the book " + book);
+        log.debug("Updating the book " + book);
         return ok(bookRepository.update(book)).build();
     }
 
     @DELETE
     @Path("/{id : \\d+}")
     public Response delete(@PathParam("id") final Long id) {
-        log.info("Deleting the book " + id);
+        log.debug("Deleting the book " + id);
         bookRepository.deleteById(id);
         return noContent().build();
     }

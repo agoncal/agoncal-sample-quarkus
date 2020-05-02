@@ -19,28 +19,25 @@ package org.agoncal.sample.quarkus.book.rest;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
+import io.restassured.config.ObjectMapperConfig;
 import io.restassured.mapper.ObjectMapper;
 import io.restassured.mapper.ObjectMapperDeserializationContext;
 import io.restassured.mapper.ObjectMapperSerializationContext;
 import org.agoncal.sample.quarkus.book.domain.Book;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import javax.ws.rs.core.MediaType;
 
 import static io.restassured.RestAssured.given;
-import static javax.ws.rs.core.Response.Status.CREATED;
-import static javax.ws.rs.core.Response.Status.NOT_FOUND;
-import static javax.ws.rs.core.Response.Status.NO_CONTENT;
-import static javax.ws.rs.core.Response.Status.OK;
+import static javax.ws.rs.core.Response.Status.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @QuarkusTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class BookResourceTest {
 
     private static String bookId;
@@ -59,27 +56,34 @@ public class BookResourceTest {
                 return jsonb.toJson(context.getObjectToSerialize());
             }
         };
-        RestAssured.objectMapper(mapper);
-    }
-
-    @Test
-    public void shouldNotFindAnythingById() {
-        given()
-            .when().get("/api/books/9999999")
-            .then()
-            .statusCode(NOT_FOUND.getStatusCode());
-    }
-
-    @Test
-    public void shouldNotDeleteAnythingById() {
-        given()
-            .when().get("/api/books/9999999")
-            .then()
-            .statusCode(NOT_FOUND.getStatusCode());
+        RestAssured.config = RestAssured.config().objectMapperConfig(
+            ObjectMapperConfig.objectMapperConfig().defaultObjectMapper(mapper)
+        );
     }
 
     @Test
     @Order(1)
+    public void shouldNotFindAnythingById() {
+        given()
+            .when()
+            .pathParam("id", 9999999)
+            .get("/api/books/{id}")
+            .then()
+            .statusCode(NOT_FOUND.getStatusCode());
+    }
+
+    @Test
+    @Order(2)
+    public void shouldNotDeleteAnythingById() {
+        given()
+            .pathParam("id", 9999999)
+            .delete("/api/books/{id}")
+            .then()
+            .statusCode(NO_CONTENT.getStatusCode());
+    }
+
+    @Test
+    @Order(3)
     public void shouldFindAllBeforeCreate() {
         given()
             .when().get("/api/books")
@@ -89,7 +93,7 @@ public class BookResourceTest {
     }
 
     @Test
-    @Order(2)
+    @Order(4)
     public void shouldCreate() {
         final Book book = new Book("Joshua Bloch", "Effective Java (2nd Edition)", 2001, "Tech", " 978-0-3213-5668-0");
 
@@ -110,7 +114,7 @@ public class BookResourceTest {
     }
 
     @Test
-    @Order(3)
+    @Order(5)
     public void shouldFindAllAfterCreate() {
         given()
             .when().get("/api/books")
@@ -120,7 +124,7 @@ public class BookResourceTest {
     }
 
     @Test
-    @Order(4)
+    @Order(6)
     public void delete() {
         given()
             .pathParam("id", bookId)
@@ -130,7 +134,7 @@ public class BookResourceTest {
     }
 
     @Test
-    @Order(5)
+    @Order(7)
     public void shouldFindAllAfterDelete() {
         given()
             .when().get("/api/books")

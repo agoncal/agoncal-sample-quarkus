@@ -24,7 +24,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -41,7 +40,6 @@ import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 
 import static java.util.Optional.ofNullable;
-import static javax.transaction.Transactional.TxType.REQUIRED;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import static javax.ws.rs.core.Response.noContent;
 import static javax.ws.rs.core.Response.ok;
@@ -88,7 +86,6 @@ public class BookResource {
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Transactional(REQUIRED)
     public Response create(Book book, @Context UriInfo uriInfo) {
         log.debug("Creating the book " + book);
         if (book.getId() != null) {
@@ -106,6 +103,7 @@ public class BookResource {
     }
 
     @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response update(Book book) {
         log.debug("Updating the book " + book);

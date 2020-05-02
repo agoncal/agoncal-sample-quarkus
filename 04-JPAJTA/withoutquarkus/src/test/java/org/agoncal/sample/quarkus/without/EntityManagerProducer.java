@@ -12,7 +12,7 @@ import javax.persistence.EntityManagerFactory;
 public class EntityManagerProducer {
 
     @Inject
-    private EntityManagerFactory entityManagerFactory;
+    EntityManagerFactory entityManagerFactory;
 
     @Produces
     @RequestScoped

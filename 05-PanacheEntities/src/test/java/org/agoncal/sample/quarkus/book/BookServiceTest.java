@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class BookServiceTest {
 
   @Inject
-  private BookService bookService;
+  BookService bookService;
 
   // ======================================
   // =              Methods               =

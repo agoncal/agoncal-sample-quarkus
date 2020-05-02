@@ -16,7 +16,7 @@ import java.util.Map;
 public class EntityManagerFactoryProducer {
 
     @Inject
-    private BeanManager beanManager;
+    BeanManager beanManager;
 
     @Produces
     @ApplicationScoped

@@ -18,7 +18,7 @@ import static javax.transaction.Transactional.TxType.SUPPORTS;
 public class AddressService {
 
     @Inject
-    private EntityManager em;
+    EntityManager em;
 
     @Transactional(REQUIRED)
     public Address save(Address address) {

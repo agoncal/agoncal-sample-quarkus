@@ -15,12 +15,14 @@ public class BookResource {
     @GET
     @Path("/without/{id}")
     public Book findBookByIdWithoutOptional(@PathParam("id") Long id) {
+        // 204 if not found
         return Book.findById(id);
     }
 
     @GET
     @Path("/with/{id}")
     public Optional<Book> findBookByIdWithOptiona(@PathParam("id") Long id) {
+        // 200 if not found
         return Book.findByIdOptional(id);
     }
 

@@ -17,6 +17,7 @@
         <module>04-JPAJTA</module>
         <module>05-PanacheEntities</module>
         <module>06-CDI-Producers</module>
+        <module>07-PanacheOptional</module>
     </modules>
 
     <properties>

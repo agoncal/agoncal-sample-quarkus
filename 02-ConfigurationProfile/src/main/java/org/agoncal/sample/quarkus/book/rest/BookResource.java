@@ -19,8 +19,7 @@ package org.agoncal.sample.quarkus.book.rest;
 import org.agoncal.sample.quarkus.book.domain.Book;
 import org.agoncal.sample.quarkus.book.repository.BookRepository;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -49,7 +48,8 @@ import static javax.ws.rs.core.Response.status;
 @Path("books")
 public class BookResource {
 
-    private final Logger log = LoggerFactory.getLogger(BookResource.class);
+    @Inject
+    Logger log;
 
     @ConfigProperty(name = "isbn.prefix")
     String isbnPrefix;

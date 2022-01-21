@@ -20,7 +20,7 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
 
-        <version.com.h2database>1.4.197</version.com.h2database>
+        <version.com.h2database>2.1.210</version.com.h2database>
         <version.org.hibernate>5.4.0.Final</version.org.hibernate>
         <version.narayana>5.9.2.Final</version.narayana>
         <version.jnpserver>5.0.3.GA</version.jnpserver>
